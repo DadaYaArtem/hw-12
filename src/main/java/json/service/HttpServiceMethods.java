@@ -38,32 +38,28 @@ public class HttpServiceMethods {
     }
 
     public static Root updateUserWithSpecificId(int id) throws IOException, InterruptedException {
-        Root defaultUser = createNewDefaultUser();
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(DEFAULT_URI+"/users/"+id))
-                .PUT(HttpRequest.BodyPublishers.ofString(GSON.toJson(defaultUser)))
+                .PUT(HttpRequest.BodyPublishers.ofString(GSON.toJson(createNewDefaultUser())))
                 .headers("Content-type", "application/json; charset=UTF-8")
                 .build();
 
         HttpResponse<String> response = CLIENT.send(request,HttpResponse.BodyHandlers.ofString());
 
-        Root user = GSON.fromJson(response.body(), Root.class);
-        return user;
+        return GSON.fromJson(response.body(), Root.class);
     }
 
     public static Root postNewUser() throws IOException, InterruptedException {
-        Root defaultUser = createNewDefaultUser();
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(DEFAULT_URI + "/users"))
-                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(defaultUser)))
+                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(createNewDefaultUser())))
                 .headers("Content-type", "application/json; charset=UTF-8")
                 .build();
         HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Root user = GSON.fromJson(response.body(), Root.class);
-        return user;
+        return GSON.fromJson(response.body(), Root.class);
     }
 
     public static int deletingUserById(int id) throws IOException, InterruptedException {
@@ -87,8 +83,7 @@ public class HttpServiceMethods {
 
         HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Root user = GSON.fromJson(response.body(), Root.class);
-        return user;
+        return GSON.fromJson(response.body(), Root.class);
     }
 
     public static Root getUserWithSpecificUsername(String username) throws IOException, InterruptedException {
